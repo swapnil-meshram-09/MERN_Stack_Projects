@@ -1,17 +1,10 @@
 import express from 'express'
-import mongoose from 'mongoose'
+import coonectDB from './config/db.js'
 
 const app = express()
 
-// mongoose.connect(process.env.MONGODB_URI)
-// .then(() =>{
-//     console.log('MONGODB Connected Successfully.');
-    
-// })
-// .catch((error) =>{
-//     console.log(error);
-// })
+connectDB()
 
-app.listen(process.env.PORT, ()=>{
+app.listen(process.env.PORT, () =>{
     console.log(`Server is running on port: ${process.env.PORT}`);
 })

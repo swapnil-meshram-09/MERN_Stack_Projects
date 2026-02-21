@@ -6,9 +6,9 @@ function Login(){
     return(
         <>
         <form action="" onSubmit={preventDefault}>
-            <h1>Login</h1>
-            <input type='text' placeholder='Enter username' onChange={(e) =>{e.target.value}}/> <br />
-            <input type='password' placeholder='Enter password' onChange={(e) =>{e.target.value}}/> <br />
+            <h2>Login</h2>
+            <input type='text' placeholder='Enter Username / Email' onChange={(e) =>{e.target.value}}/> <br />
+            <input type='password' placeholder='Enter Password' onChange={(e) =>{e.target.value}}/> <br />
             <button>Login</button>
         </form>
         </>

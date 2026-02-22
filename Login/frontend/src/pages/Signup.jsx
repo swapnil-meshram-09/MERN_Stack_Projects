@@ -3,6 +3,13 @@ import axios from 'axios'
 
 function Signup(){
 
+    const [ form, setForm ] = useState({
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
+
     function preventDefault(e){
         e.preventDefault()
     }

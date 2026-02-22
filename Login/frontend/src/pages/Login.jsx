@@ -3,6 +3,11 @@ import axios from 'axios'
 
 function Login(){
 
+    const [ form, setForm ] = useState({
+        username: '',
+        password: ''
+    })
+
     function preventDefault(e){
         e.preventDefault()
     }

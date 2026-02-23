@@ -9,11 +9,19 @@ function Login(){
     })
 
     function handleChange(e){
+        setForm({})
+    }
 
+    async function handleForm(e){
+        e.preventDefault();
+
+        try{
+            const response = await axios.get('http://localhost:3000/api/auth/login')
+        } catch(error){
+            console.log(error.message);
+        }   
     }
-    function handleForm(e){
-        e.preventDefault()
-    }
+
     return(
         <>
         <form action="" onSumbit={handleForm}>

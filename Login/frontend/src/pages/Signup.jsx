@@ -10,8 +10,14 @@ function Signup(){
         confirmPassword: ''
     });
 
-    function handleForm(e){
+    async function handleForm(e){
         e.preventDefault()
+
+        try{
+            await
+        } catch(error){
+            console.log(error.message);   
+        }
     }
 
     function handleChange(e){

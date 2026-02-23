@@ -19,10 +19,10 @@ function Signup(){
 
         <h2>Sign Up</h2>
 
-        <input type='text' placeholder='Enter Username' onChange={(e) =>{e.target.value}} /> <br />
-        <input type='email' placeholder='Enter Email' onChange={(e) =>{e.target.value}} /> <br />
-        <input type='password' placeholder='Enter Password' onChange={(e) =>{e.target.value}} /> <br />
-        <input type='password' placeholder='Enter Confirm Password' onChange={(e) =>{e.target.value}} /> <br />
+        <input type='text'      name='username'          placeholder='Enter Username'         onChange={(e) =>{e.target.value}} /> <br />
+        <input type='email'     name='emai'              placeholder='Enter Email'            onChange={(e) =>{e.target.value}} /> <br />
+        <input type='password'  name='password'          placeholder='Enter Password'         onChange={(e) =>{e.target.value}} /> <br />
+        <input type='password'  name='confirmPassword'   placeholder='Enter Confirm Password' onChange={(e) =>{e.target.value}} /> <br />
        
         <button>Sign Up</button>
 

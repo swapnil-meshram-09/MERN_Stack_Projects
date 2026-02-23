@@ -14,7 +14,7 @@ function Signup(){
         e.preventDefault()
 
         try{
-            await
+           const response =  await axios.post('http://localhost:3000/api/auth/signup', form)
         } catch(error){
             console.log(error.message);   
         }

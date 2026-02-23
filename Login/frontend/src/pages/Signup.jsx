@@ -13,16 +13,21 @@ function Signup(){
     function handleForm(e){
         e.preventDefault()
     }
+
+    function handleChange(e){
+        setForm({...form, [e.target.name]: e.target.value})
+    }
+
     return(
         <>
         <form action="" onSubmit={handleForm}>
 
         <h2>Sign Up</h2>
 
-        <input type='text'      name='username'          placeholder='Enter Username'         onChange={} /> <br />
-        <input type='email'     name='email'             placeholder='Enter Email'            onChange={} /> <br />
-        <input type='password'  name='password'          placeholder='Enter Password'         onChange={} /> <br />
-        <input type='password'  name='confirmPassword'   placeholder='Enter Confirm Password' onChange={} /> <br />
+        <input type='text'      name='username'          placeholder='Enter Username'         onChange={handleChange} /> <br />
+        <input type='email'     name='email'             placeholder='Enter Email'            onChange={handleChange} /> <br />
+        <input type='password'  name='password'          placeholder='Enter Password'         onChange={handleChange} /> <br />
+        <input type='password'  name='confirmPassword'   placeholder='Enter Confirm Password' onChange={handleChange} /> <br />
        
         <button>Sign Up</button>
 

@@ -15,6 +15,9 @@ function Signup(){
 
         try{
            const response =  await axios.post('http://localhost:3000/api/auth/signup', form)
+           alert(response.data.msg)
+           window.location.href='/'
+
         } catch(error){
             console.log(error.message);   
         }

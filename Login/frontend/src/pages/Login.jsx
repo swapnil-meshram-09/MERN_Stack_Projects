@@ -19,7 +19,9 @@ function Login(){
             alert(response.data.msg)
             localStorage.setItem('token', response.data.token)
         } catch(error){
+            console.log(error.message);
             alert('User not found. Redirecting to signup...')
+            window.location.href='/signup'
         }   
     }
 

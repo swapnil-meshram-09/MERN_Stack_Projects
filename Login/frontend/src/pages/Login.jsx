@@ -15,7 +15,7 @@ function Login(){
         e.preventDefault();
 
         try{
-            const response = await axios.get('http://localhost:3000/api/auth/login')
+            const response = await axios.get('http://localhost:3000/api/auth/login', form)
         } catch(error){
             console.log(error.message);
         }   

@@ -28,9 +28,9 @@ function Login(){
     return(
         <>
         <form action="" onSumbit={handleForm}>
-            <h2>Login </h2>
-            <input type='text'     name='username' placeholder='Enter Username / Email' onChange={handleChange}/>
-            <input type='password' name='password' placeholder='Enter Password'         onChange={handleChange}/>
+            <h2>Login </h2>   <br />
+            <input type='text'     name='username' placeholder='Enter Username / Email' onChange={handleChange}/>   <br />
+            <input type='password' name='password' placeholder='Enter Password'         onChange={handleChange}/>   <br />
             <button>Login</button>
         </form>
         </>

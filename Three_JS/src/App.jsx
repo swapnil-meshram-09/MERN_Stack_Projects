@@ -9,3 +9,14 @@ function Box() {
     </mesh>
   );
 }
+
+export default function App() {
+  return (
+    <Canvas style={{ height: "100vh" }}>
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[2, 2, 2]} />
+      <Box />
+      <OrbitControls />
+    </Canvas>
+  );
+}

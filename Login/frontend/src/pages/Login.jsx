@@ -8,7 +8,7 @@ function Login(){
     })
 
     function handleChange(e){
-        setForm({})
+        setForm({...form, [e.target.name]: e.target.value})
     }
 
     async function handleForm(e){

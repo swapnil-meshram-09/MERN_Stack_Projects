@@ -19,7 +19,7 @@ function Login(){
             alert(response.data.msg)
             localStorage.setItem('token', response.data.token)
         } catch(error){
-            
+            alert('User not found. Redirecting to signup...')
         }   
     }
 

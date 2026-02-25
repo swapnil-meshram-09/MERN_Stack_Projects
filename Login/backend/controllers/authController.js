@@ -1,4 +1,4 @@
-import user from '../models/user.js'
+import User from '../models/user.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
@@ -10,7 +10,7 @@ export const signup = async() =>{
         return res.status(400).json({msg: 'Password do not match.'})
        }
 
-       const existingUser = await user.findOne({
+       const existingUser = await User.findOne({
         $or: [{username} || {email}]
        });
 

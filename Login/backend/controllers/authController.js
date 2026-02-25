@@ -10,6 +10,10 @@ export const signup = async() =>{
         return res.status(400).json({msg: 'Password do not match.'})
        }
 
+       const existingUser = await user.findOne({
+        $or: [{username} || {email}]
+       });
+
     } catch(error){
         res.status(500).json({msg: 'server error'})
     }

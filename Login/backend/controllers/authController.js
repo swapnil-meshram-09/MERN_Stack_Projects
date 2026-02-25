@@ -18,6 +18,8 @@ export const signup = async() =>{
         return res.status(400).json({msg: 'User already exist'})
        }
 
+       const hashedPassword = await bcrypt.hash(password, 10)
+
     } catch(error){
         res.status(500).json({msg: 'server error'})
     }

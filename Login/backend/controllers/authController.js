@@ -14,6 +14,10 @@ export const signup = async() =>{
         $or: [{username} || {email}]
        });
 
+       if(existingUser){
+        return res.status(400).json({msg: 'User already exist'})
+       }
+
     } catch(error){
         res.status(500).json({msg: 'server error'})
     }

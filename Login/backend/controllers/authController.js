@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs'
 
 export const signup = async() =>{
     try{
+       const {username, email, password, confirmPassword} = req.body;
 
     } catch(error){
 
@@ -13,6 +14,7 @@ export const signup = async() =>{
 
 export const login = async() =>{
     try{
+        const {username, password} = req.body;
 
     } catch(error){
 

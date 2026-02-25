@@ -1,4 +1,5 @@
-function (){
+import user from '../models/user.js'
+export const signup = async() =>{
     return(
         <>
         
@@ -6,7 +7,8 @@ function (){
     )
 }
 
-function (){
+
+export const login = async() =>{
     return(
         <>
         

@@ -7,7 +7,7 @@ export const signup = async() =>{
        const {username, email, password, confirmPassword} = req.body;
 
     } catch(error){
-
+        res.status(500).json({msg: 'server error'})
     }
 }
 
@@ -17,6 +17,6 @@ export const login = async() =>{
         const {username, password} = req.body;
 
     } catch(error){
-
+        res.status(500).json({msg:'server error'})
     }
 }

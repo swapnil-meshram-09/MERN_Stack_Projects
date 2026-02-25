@@ -1,138 +1,186 @@
-// import { Canvas } from "@react-three/fiber";
-// import { OrbitControls } from "@react-three/drei";
-
-// function Box() {
-//   return (
-//     <mesh rotation={[10, 10, 0]}>
-//       <boxGeometry args={[1, 1, 1]} />
-//       <meshStandardMaterial color="orange" />
-//     </mesh>
-//   );
-// }
-
-// export default function App() {
-//   return (
-//     <Canvas style={{ height: "100vh" }}>
-//       <ambientLight intensity={0.5} />
-//       <directionalLight position={[2, 2, 2]} />
-//       <Box />
-//       <OrbitControls />
-//     </Canvas>
-//   );
-// }
-
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Environment } from "@react-three/drei";
-import { useRef } from "react";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Sky } from "@react-three/drei";
+import { useRef, useEffect, useMemo } from "react";
 import * as THREE from "three";
 
-function Cat() {
-  const group = useRef();
-  const tail = useRef();
-  const head = useRef();
-  const legFL = useRef();
-  const legFR = useRef();
-  const legBL = useRef();
-  const legBR = useRef();
+/* ================= CAR ================= */
+function Car({ carRef }) {
+  const texture = useLoader(THREE.TextureLoader, "/car.jpg");
 
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
+  const velocity = useRef(0);
+  const direction = useRef(0);
+  const keys = useRef({});
+  const wheelSpin = useRef(0);
+  const steerAngle = useRef(0);
 
-    // Walk motion (up-down body)
-    group.current.position.y = Math.sin(t * 4) * 0.05;
+  useEffect(() => {
+    const down = (e) => (keys.current[e.code] = true);
+    const up = (e) => (keys.current[e.code] = false);
 
-    // Head slight movement
-    head.current.rotation.y = Math.sin(t * 2) * 0.2;
+    window.addEventListener("keydown", down);
+    window.addEventListener("keyup", up);
 
-    // Tail swing
-    tail.current.rotation.z = Math.sin(t * 5) * 0.5;
+    return () => {
+      window.removeEventListener("keydown", down);
+      window.removeEventListener("keyup", up);
+    };
+  }, []);
 
-    // Leg walking animation
-    legFL.current.rotation.x = Math.sin(t * 6) * 0.5;
-    legBR.current.rotation.x = Math.sin(t * 6) * 0.5;
+  useFrame((_, delta) => {
+    if (!carRef.current) return;
 
-    legFR.current.rotation.x = Math.sin(t * 6 + Math.PI) * 0.5;
-    legBL.current.rotation.x = Math.sin(t * 6 + Math.PI) * 0.5;
+    // Acceleration
+    if (keys.current["KeyW"] || keys.current["ArrowUp"])
+      velocity.current += 25 * delta;
+
+    if (keys.current["KeyS"] || keys.current["ArrowDown"])
+      velocity.current -= 25 * delta;
+
+    // Steering
+    if (keys.current["KeyA"] || keys.current["ArrowLeft"])
+      steerAngle.current = 0.6;
+    else if (keys.current["KeyD"] || keys.current["ArrowRight"])
+      steerAngle.current = -0.6;
+    else
+      steerAngle.current = 0;
+
+    direction.current += steerAngle.current * velocity.current * 0.02;
+
+    // Friction
+    velocity.current *= 0.98;
+
+    // Move
+    carRef.current.rotation.y = direction.current;
+    carRef.current.position.x -= Math.sin(direction.current) * velocity.current;
+    carRef.current.position.z -= Math.cos(direction.current) * velocity.current;
+
+    // Wheel spin
+    wheelSpin.current += velocity.current * 0.5;
   });
 
   return (
-    <group ref={group} position={[0, 0, 0]}>
+    <group ref={carRef} position={[0, 1, 0]}>
 
-      {/* Body */}
-      <mesh position={[0, 0.5, 0]}>
-        <boxGeometry args={[2, 1, 1]} />
-        <meshStandardMaterial color="#ffb347" />
+      {/* Main Body */}
+      <mesh>
+        <boxGeometry args={[4, 1, 8]} />
+        <meshStandardMaterial map={texture} />
       </mesh>
 
-      {/* Head */}
-      <group ref={head} position={[1.3, 0.9, 0]}>
-        <mesh>
-          <sphereGeometry args={[0.5, 32, 32]} />
-          <meshStandardMaterial color="#ffb347" />
-        </mesh>
-
-        {/* Eyes */}
-        <mesh position={[0.3, 0.1, 0.4]}>
-          <sphereGeometry args={[0.1, 16, 16]} />
-          <meshStandardMaterial color="black" />
-        </mesh>
-
-        <mesh position={[0.3, 0.1, -0.4]}>
-          <sphereGeometry args={[0.1, 16, 16]} />
-          <meshStandardMaterial color="black" />
-        </mesh>
-
-        {/* Ears */}
-        <mesh position={[0, 0.6, 0.3]}>
-          <coneGeometry args={[0.2, 0.5, 16]} />
-          <meshStandardMaterial color="#ff9966" />
-        </mesh>
-
-        <mesh position={[0, 0.6, -0.3]}>
-          <coneGeometry args={[0.2, 0.5, 16]} />
-          <meshStandardMaterial color="#ff9966" />
-        </mesh>
-      </group>
-
-      {/* Tail */}
-      <mesh ref={tail} position={[-1.2, 0.8, 0]} rotation={[0, 0, 0.5]}>
-        <cylinderGeometry args={[0.1, 0.1, 1.5, 16]} />
-        <meshStandardMaterial color="#ffb347" />
+      {/* Upper Cabin */}
+      <mesh position={[0, 1, -1]}>
+        <boxGeometry args={[3, 1.2, 4]} />
+        <meshStandardMaterial map={texture} />
       </mesh>
 
-      {/* Legs */}
-      <mesh ref={legFL} position={[0.7, 0, 0.4]}>
-        <cylinderGeometry args={[0.15, 0.15, 1, 16]} />
-        <meshStandardMaterial color="#ff9966" />
-      </mesh>
-
-      <mesh ref={legFR} position={[0.7, 0, -0.4]}>
-        <cylinderGeometry args={[0.15, 0.15, 1, 16]} />
-        <meshStandardMaterial color="#ff9966" />
-      </mesh>
-
-      <mesh ref={legBL} position={[-0.7, 0, 0.4]}>
-        <cylinderGeometry args={[0.15, 0.15, 1, 16]} />
-        <meshStandardMaterial color="#ff9966" />
-      </mesh>
-
-      <mesh ref={legBR} position={[-0.7, 0, -0.4]}>
-        <cylinderGeometry args={[0.15, 0.15, 1, 16]} />
-        <meshStandardMaterial color="#ff9966" />
-      </mesh>
+      {/* Wheels */}
+      {[[-2.5, -0.8, 3], [2.5, -0.8, 3], [-2.5, -0.8, -3], [2.5, -0.8, -3]].map(
+        (pos, i) => (
+          <mesh
+            key={i}
+            position={pos}
+            rotation={[wheelSpin.current, 0, 0]}
+          >
+            <cylinderGeometry args={[1, 1, 0.8, 32]} />
+            <meshStandardMaterial color="black" />
+          </mesh>
+        )
+      )}
 
     </group>
   );
 }
 
-export default function App() {
+/* ================= INFINITE ROAD ================= */
+function Road() {
+  const roadRef = useRef();
+
+  useFrame(({ camera }) => {
+    roadRef.current.position.z =
+      Math.floor(camera.position.z / 300) * 300;
+  });
+
   return (
-    <Canvas camera={{ position: [5, 3, 5], fov: 60 }} style={{ height: "100vh" }}>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[5, 5, 5]} intensity={2} />
-      <Environment preset="city" />
-      <Cat />
-      <OrbitControls enableZoom={true} />
+    <mesh
+      ref={roadRef}
+      rotation={[-Math.PI / 2, 0, 0]}
+      position={[0, 0.01, 0]}
+    >
+      <planeGeometry args={[30, 300]} />
+      <meshStandardMaterial color="#666666" />
+    </mesh>
+  );
+}
+
+/* ================= GROUND ================= */
+function Ground() {
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]}>
+      <planeGeometry args={[12000, 12000]} />
+      <meshStandardMaterial color="#2e8b57" />
+    </mesh>
+  );
+}
+
+/* ================= TREES ================= */
+function Trees() {
+  const trees = useMemo(() => {
+    const arr = [];
+    for (let i = 0; i < 500; i++) {
+      const x = (Math.random() - 0.5) * 10000;
+      const z = (Math.random() - 0.5) * 10000;
+
+      arr.push(
+        <group key={i} position={[x, 0, z]}>
+          <mesh position={[0, 4, 0]}>
+            <cylinderGeometry args={[0.8, 0.8, 8, 8]} />
+            <meshStandardMaterial color="#8B4513" />
+          </mesh>
+
+          <mesh position={[0, 10, 0]}>
+            <coneGeometry args={[4, 10, 8]} />
+            <meshStandardMaterial color="green" />
+          </mesh>
+        </group>
+      );
+    }
+    return arr;
+  }, []);
+
+  return <>{trees}</>;
+}
+
+/* ================= FOLLOW CAMERA ================= */
+function FollowCamera({ target }) {
+  useFrame(({ camera }) => {
+    if (!target.current) return;
+
+    const offset = new THREE.Vector3(0, 6, 20)
+      .applyAxisAngle(new THREE.Vector3(0, 1, 0), target.current.rotation.y)
+      .add(target.current.position);
+
+    camera.position.lerp(offset, 0.1);
+    camera.lookAt(target.current.position);
+  });
+
+  return null;
+}
+
+/* ================= MAIN APP ================= */
+export default function App() {
+  const carRef = useRef();
+
+  return (
+    <Canvas camera={{ position: [0, 6, 20], fov: 60 }} style={{ height: "100vh" }}>
+      <Sky sunPosition={[100, 20, 100]} />
+      <ambientLight intensity={0.6} />
+      <directionalLight position={[200, 200, 200]} intensity={1.5} />
+
+      <Car carRef={carRef} />
+      <Ground />
+      <Road />
+      <Trees />
+      <FollowCamera target={carRef} />
     </Canvas>
   );
 }

@@ -37,6 +37,10 @@ export const login = async() =>{
     try{
         const {username, password} = req.body;
 
+        const user = await User.findOne({
+            $or: [{username: username} || {email: username}]
+        })
+
     } catch(error){
         res.status(500).json({msg:'server error'})
     }

@@ -41,6 +41,10 @@ export const login = async() =>{
             $or: [{username: username} || {email: username}]
         })
 
+        if(!user){
+            return res.status(404).json({msg: 'User not found.'})
+        }
+
     } catch(error){
         res.status(500).json({msg:'server error'})
     }

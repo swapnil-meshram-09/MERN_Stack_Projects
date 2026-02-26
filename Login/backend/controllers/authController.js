@@ -20,10 +20,17 @@ export const signup = async() =>{
 
        const hashedPassword = await bcrypt.hash(password, 10)
 
+       const user = await User.create({
+        username, 
+        email,
+        password: hashedPassword
+       });
+
     } catch(error){
         res.status(500).json({msg: 'server error'})
     }
 }
+
 
 
 export const login = async() =>{

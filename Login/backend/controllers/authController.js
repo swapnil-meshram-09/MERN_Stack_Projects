@@ -52,7 +52,8 @@ export const login = async() =>{
         }
 
         const token = jwt.sign(
-
+            {id: user._id},
+       
         )
     } catch(error){
         res.status(500).json({msg:'server error'})

@@ -47,7 +47,9 @@ export const login = async() =>{
 
         const isMatch = await bcrypt.compare(password, user.password)
 
-        
+        if(!isMatch){
+            return res.status(404).json({msg: 'Password does not match.'})
+        }
     } catch(error){
         res.status(500).json({msg:'server error'})
     }

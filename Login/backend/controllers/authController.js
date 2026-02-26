@@ -50,6 +50,10 @@ export const login = async() =>{
         if(!isMatch){
             return res.status(404).json({msg: 'Password does not match.'})
         }
+
+        const token = jwt.sign(
+
+        )
     } catch(error){
         res.status(500).json({msg:'server error'})
     }

@@ -2,6 +2,11 @@ import User from '../models/User.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
+export const getUsers = async (req, res) => {
+  const users = await User.find().select("-password");
+  res.json(users);
+};
+
 export const signup = async() =>{
     try{
        const {username, email, password, confirmPassword} = req.body;
